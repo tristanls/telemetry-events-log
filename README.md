@@ -83,7 +83,7 @@ Creates a new LogTelemetryEvents instance.
   * `custom`: _Object_ _(Default: undefined)_ Optional object with custom properties to add to the event.
   * Return: _Object_ The event.
 
-Helper to create and emit a "log" event. The created event will have the following properties in addition to included by TelemetryEvents.
+Helper to create and emit a "log" event. The created event will have the following properties in addition to those included by TelemetryEvents.
 
 ```javascript
 {
