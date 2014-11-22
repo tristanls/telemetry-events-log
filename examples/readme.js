@@ -32,11 +32,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 var events = require('events');
 var pkg = require('../package.json');
-var TelemetryEvents = require('../index.js');
+var TelemetryEventsLog = require('../index.js');
 
 var emitter = new events.EventEmitter();
 
-var telemetry = new TelemetryEvents({emitter: emitter, package: pkg});
+var telemetry = new TelemetryEventsLog({emitter: emitter, package: pkg});
 
 emitter.on('telemetry', function (event) {
     console.dir(event);

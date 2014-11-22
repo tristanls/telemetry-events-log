@@ -1,10 +1,10 @@
-# telemetry-events
+# telemetry-events-log
 
 _Stability: 1 - [Experimental](https://github.com/tristanls/stability-index#stability-1---experimental)_
 
-[![NPM version](https://badge.fury.io/js/telemetry-events.png)](http://npmjs.org/package/telemetry-events)
+[![NPM version](https://badge.fury.io/js/telemetry-events-log.png)](http://npmjs.org/package/telemetry-events-log)
 
-Helper for creating and emitting telemetry events.
+Helper for creating and emitting telemetry log events.
 
 ## Contributors
 
@@ -16,11 +16,11 @@ Helper for creating and emitting telemetry events.
   * [Usage](#usage)
   * [Tests](#tests)
   * [Documentation](#documentation)
-    * [TelemetryEvents](#telemetryevents)
+    * [TelemetryEventsLog](#telemetryeventslog)
 
 ## Installation
 
-    npm install telemetry-events
+    npm install telemetry-events-log
 
 ## Usage
 
@@ -33,11 +33,11 @@ To run the below example run:
 
 var events = require('events');
 var pkg = require('../package.json');
-var TelemetryEvents = require('../index.js');
+var TelemetryEventsLog = require('../index.js');
 
 var emitter = new events.EventEmitter();
 
-var telemetry = new TelemetryEvents({emitter: emitter, package: pkg});
+var telemetry = new TelemetryEventsLog({emitter: emitter, package: pkg});
 
 emitter.on('telemetry', function (event) {
     console.dir(event);
@@ -55,17 +55,17 @@ telemetry.log('error', 'hello error with custom data', {custom: 'data'});
 
 ## Documentation
 
-  * [TelemetryEvents](#telemetryevents)
+  * [TelemetryEventsLog](#telemetryeventslog)
 
-### TelemetryEvents
+### TelemetryEventsLog
 
 **Public API**
 
-  * [new TelemetryEvents(config)](#new-telemetryeventsconfig)
+  * [new TelemetryEventsLog(config)](#new-telemetryeventslogconfig)
   * [telemetry.emit(event)](#telemetryemitevent)
   * [telemetry.log(level, \[message\], \[custom\])](#telemetryloglevel-message-custom)
 
-### new TelemetryEvents(config)
+### new TelemetryEventsLog(config)
 
   * `config`: _Object_
     * `package`: _Object_ Contents of `package.json`.
@@ -74,7 +74,7 @@ telemetry.log('error', 'hello error with custom data', {custom: 'data'});
     * `emitter`: _EventEmitter_ _(Default: undefined)_ An optional event emitter to emit events when `log()` is called.
     * `eventName`: _String_ _(Default: 'telemetry')_ An optional event name used for event emission if `emitter` is specified.
 
-Creates a new TelemetryEvents instance.
+Creates a new TelemetryEventsLog instance.
 
 ### telemetry.emit(event)
 
@@ -99,8 +99,7 @@ Helper to create "log" event. If `emitter` was specified in configuration, calli
     level: <level>,
     message: <message>, // if provided
     timestamp: new Date().toISOString(),
-    module: <package.name>,
-    version: <package.version>
+    provenance: [{module: <package.name>, version: <package.version>},...]
 }
 ```
 

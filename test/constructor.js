@@ -1,6 +1,6 @@
 /*
 
-constructor.js - TelemetryEvents test
+constructor.js - TelemetryEventsLog test
 
 The MIT License (MIT)
 
@@ -31,7 +31,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 "use strict";
 
-var TelemetryEvents = require('../index.js');
+var TelemetryEventsLog = require('../index.js');
 
 var tests = module.exports = {};
 
@@ -46,8 +46,8 @@ var REQUIRED_CONFIG_PROPERTIES = ["package"];
 
 tests['instantiates with valid config'] = function (test) {
     test.expect(1);
-    var telemetry = new TelemetryEvents(VALID_CONFIG);
-    test.ok(telemetry instanceof TelemetryEvents, "telemetry should be instance of TelemetryEvents");
+    var telemetry = new TelemetryEventsLog(VALID_CONFIG);
+    test.ok(telemetry instanceof TelemetryEventsLog, "telemetry should be instance of TelemetryEventsLog");
     test.done();
 };
 
@@ -57,7 +57,7 @@ REQUIRED_CONFIG_PROPERTIES.forEach(function(property) {
         var config = JSON.parse(JSON.stringify(VALID_CONFIG))
         delete config[property];
         test.throws(function() {
-            new TelemetryEvents(config);
+            new TelemetryEventsLog(config);
         });
         test.done();
     };
@@ -66,7 +66,7 @@ REQUIRED_CONFIG_PROPERTIES.forEach(function(property) {
 tests['throws error if config has event specified without emitter specified'] = function (test) {
     test.expect(1);
     test.throws(function () {
-        new TelemetryEvents({
+        new TelemetryEventsLog({
             event: 'all by myyyyselllllllllllf',
             package: {
                 name: "package-name",

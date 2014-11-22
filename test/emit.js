@@ -1,6 +1,6 @@
 /*
 
-emit.js - TelemetryEvents.emit() test
+emit.js - TelemetryEventsLog.emit() test
 
 The MIT License (MIT)
 
@@ -32,14 +32,14 @@ OTHER DEALINGS IN THE SOFTWARE.
 "use strict";
 
 var events = require('events');
-var TelemetryEvents = require('../index.js');
+var TelemetryEventsLog = require('../index.js');
 
 var tests = module.exports = {};
 
 tests["does not throw if emitter is not specified"] = function (test) {
     test.expect(1);
     var _event = {};
-    var telemetry = new TelemetryEvents({
+    var telemetry = new TelemetryEventsLog({
             package: {
                 name: "package-name",
                 version: "package-version"
@@ -55,7 +55,7 @@ tests["emits 'telemetry' event if emitter is specified but eventName is not"] = 
     test.expect(1);
     var _emitter = new events.EventEmitter();
     var _event = {};
-    var telemetry = new TelemetryEvents({
+    var telemetry = new TelemetryEventsLog({
             emitter: _emitter,
             package: {
                 name: "package-name",
@@ -73,7 +73,7 @@ tests["emits <eventName> event if emitter and eventName are specified"] = functi
     test.expect(1);
     var _emitter = new events.EventEmitter();
     var _event = {};
-    var telemetry = new TelemetryEvents({
+    var telemetry = new TelemetryEventsLog({
             emitter: _emitter,
             eventName: 'my-telemetry',
             package: {

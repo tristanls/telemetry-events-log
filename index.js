@@ -1,6 +1,6 @@
 /*
 
-index.js: telemetry-events
+index.js: telemetry-events-log
 
 The MIT License (MIT)
 
@@ -31,11 +31,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 "use strict";
 
-module.exports = TelemetryEvents;
+module.exports = TelemetryEventsLog;
 
 var REQUIRED_CONFIG_PROPERTIES = ["package"];
 
-function TelemetryEvents(config) {
+function TelemetryEventsLog(config) {
     var self = this;
 
     config = config || {};
@@ -56,7 +56,7 @@ function TelemetryEvents(config) {
     }
 };
 
-TelemetryEvents.prototype.emit = function emit(event) {
+TelemetryEventsLog.prototype.emit = function emit(event) {
     var self = this;
 
     if (self._emitter) {
@@ -64,7 +64,7 @@ TelemetryEvents.prototype.emit = function emit(event) {
     }
 };
 
-TelemetryEvents.prototype.log = function log(level, message, custom) {
+TelemetryEventsLog.prototype.log = function log(level, message, custom) {
     var self = this;
 
     var event = {

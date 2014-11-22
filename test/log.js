@@ -1,6 +1,6 @@
 /*
 
-log.js - TelemetryEvents.log() test
+log.js - TelemetryEventsLog.log() test
 
 The MIT License (MIT)
 
@@ -32,7 +32,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 "use strict";
 
 var events = require('events');
-var TelemetryEvents = require('../index.js');
+var TelemetryEventsLog = require('../index.js');
 
 var tests = module.exports = {};
 
@@ -51,7 +51,7 @@ function assertEqual(test, thingy, actualValueOfThingy, expectedValueOfThingy) {
 
 tests['returns log event'] = function (test) {
     test.expect(8);
-    var telemetry = new TelemetryEvents(VALID_CONFIG);
+    var telemetry = new TelemetryEventsLog(VALID_CONFIG);
     var event = telemetry.log('info', "'ello", {foo: 'bar', baz: {hi: 'there'}});
     assertEqual(test, 'event.type', event.type, 'log');
     assertEqual(test, 'event.level', event.level, 'info');
@@ -66,7 +66,7 @@ tests['returns log event'] = function (test) {
 
 tests['allows custom to be passed as the second parameter instead of message'] = function (test) {
     test.expect(8);
-    var telemetry = new TelemetryEvents(VALID_CONFIG);
+    var telemetry = new TelemetryEventsLog(VALID_CONFIG);
     var event = telemetry.log('info', {foo: 'bar', baz: {hi: 'there'}});
     assertEqual(test, 'event.type', event.type, 'log');
     assertEqual(test, 'event.level', event.level, 'info');
@@ -85,7 +85,7 @@ tests["should call emit() to emit event"] = function (test) {
     _emitter.emit = function () {
         test.ok(false, "emitter.emit() should not have been called directly");
     };
-    var telemetry = new TelemetryEvents({
+    var telemetry = new TelemetryEventsLog({
             emitter: _emitter,
             package: {
                 name: "package-name",
