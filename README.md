@@ -33,19 +33,23 @@ To run the below example run:
 
 var events = require('events');
 var pkg = require('../package.json');
+var TelemetryEvents = require('telemetry-events');
+
 var LogTelemetryEvents = require('../index.js');
 
 var emitter = new events.EventEmitter();
 
-var telemetry = new LogTelemetryEvents({emitter: emitter, package: pkg});
+var telemetryEvents = new TelemetryEvents({emitter: emitter, package: pkg});
+
+var logTelemetry = new LogTelemetryEvents({telemetry: telemetryEvents});
 
 emitter.on('telemetry', function (event) {
     console.dir(event);
 });
 
-telemetry.log('info', 'hello info level');
-telemetry.log('warn', 'hello warn level');
-telemetry.log('error', 'hello error with custom data', {custom: 'data'});
+logTelemetry.log('info', 'hello info level');
+logTelemetry.log('warn', 'hello warn level');
+logTelemetry.log('error', 'hello error with custom data', {custom: 'data'});
 
 ```
 
