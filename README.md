@@ -16,7 +16,7 @@ Helper for creating and emitting telemetry log events.
   * [Usage](#usage)
   * [Tests](#tests)
   * [Documentation](#documentation)
-    * [TelemetryEventsLog](#telemetryeventslog)
+    * [LogTelemetryEvents](#logtelemetryevents)
 
 ## Installation
 
@@ -33,11 +33,11 @@ To run the below example run:
 
 var events = require('events');
 var pkg = require('../package.json');
-var TelemetryEventsLog = require('../index.js');
+var LogTelemetryEvents = require('../index.js');
 
 var emitter = new events.EventEmitter();
 
-var telemetry = new TelemetryEventsLog({emitter: emitter, package: pkg});
+var telemetry = new LogTelemetryEvents({emitter: emitter, package: pkg});
 
 emitter.on('telemetry', function (event) {
     console.dir(event);
@@ -55,34 +55,22 @@ telemetry.log('error', 'hello error with custom data', {custom: 'data'});
 
 ## Documentation
 
-  * [TelemetryEventsLog](#telemetryeventslog)
+  * [LogTelemetryEvents](#logtelemetryevents)
 
-### TelemetryEventsLog
+### LogTelemetryEvents
 
 **Public API**
 
-  * [new TelemetryEventsLog(config)](#new-telemetryeventslogconfig)
-  * [telemetry.emit(event)](#telemetryemitevent)
+  * [new LogTelemetryEvents(config)](#new-logtelemetryeventsconfig)
   * [telemetry.log(level, \[message\], \[custom\])](#telemetryloglevel-message-custom)
 
-### new TelemetryEventsLog(config)
+### new LogTelemetryEvents(config)
 
   * `config`: _Object_
-    * `package`: _Object_ Contents of `package.json`.
-      * `name`: _String_ Module name.
-      * `version`: _String_ Module version.
-    * `emitter`: _EventEmitter_ _(Default: undefined)_ An optional event emitter to emit events when `log()` is called.
-    * `eventName`: _String_ _(Default: 'telemetry')_ An optional event name used for event emission if `emitter` is specified.
+    * `telemetry`: _Object_ TelemetryEvents instance.
+  * Return: _Object_ Instance of LogTelemetryEvents.
 
-Creates a new TelemetryEventsLog instance.
-
-### telemetry.emit(event)
-
-  * `event`: _Object_ Event to be emitted.
-
-Calling this method if `emitter` is not defined does nothing.
-
-When `emitter` is defined, calling this method will emit the `event` using `eventName`, if provided, or "telemetry" (by default).
+Creates a new LogTelemetryEvents instance.
 
 ### telemetry.log(level, [message], [custom])
 
@@ -91,15 +79,13 @@ When `emitter` is defined, calling this method will emit the `event` using `even
   * `custom`: _Object_ _(Default: undefined)_ Optional object with custom properties to add to the event.
   * Return: _Object_ The event.
 
-Helper to create "log" event. If `emitter` was specified in configuration, calling this helper will also emit this event. The created event object will have the following properties:
+Helper to create and emit a "log" event. The created event will have the following properties in addition to included by TelemetryEvents.
 
 ```javascript
 {
     type: 'log',
     level: <level>,
-    message: <message>, // if provided
-    timestamp: new Date().toISOString(),
-    provenance: [{module: <package.name>, version: <package.version>},...]
+    message: <message> // if provided
 }
 ```
 

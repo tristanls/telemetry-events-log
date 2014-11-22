@@ -31,11 +31,16 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 "use strict";
 
-module.exports = TelemetryEventsLog;
+module.exports = LogTelemetryEvents;
 
-var REQUIRED_CONFIG_PROPERTIES = ["package"];
+var REQUIRED_CONFIG_PROPERTIES = ["telemetry"];
 
-function TelemetryEventsLog(config) {
+/*
+  * `config`: _Object_
+    * `telemetry`: _Object_ TelemetryEvents instance.
+  * Return: _Object_ Instance of LogTelemetryEvents.
+*/
+function LogTelemetryEvents(config) {
     var self = this;
 
     config = config || {};
@@ -45,34 +50,20 @@ function TelemetryEventsLog(config) {
             throw new Error("config is missing required property: " + property);
         }
     });
-
-    self._emitter = config.emitter;
-    if (self._emitter) {
-        self._eventName = config.eventName || "telemetry";
-    } else {
-        if (config.event) {
-            throw new Error("'eventName' property specified in 'config' without corresponding 'emitter' property");
-        }
-    }
 };
 
-TelemetryEventsLog.prototype.emit = function emit(event) {
-    var self = this;
-
-    if (self._emitter) {
-        self._emitter.emit(self._eventName, event);
-    }
-};
-
-TelemetryEventsLog.prototype.log = function log(level, message, custom) {
+/*
+  * `level`: _String_ Log level to be used for `event.level` property.
+  * `message`: _String_ _(Default: undefined)_ An optional message to be used for `event.message` property.
+  * `custom`: _Object_ _(Default: undefined)_ Optional object with custom properties to add to the event.
+  * Return: _Object_ The event.
+*/
+LogTelemetryEvents.prototype.log = function log(level, message, custom) {
     var self = this;
 
     var event = {
         type: 'log',
         level: level,
-        timestamp: new Date().toISOString(),
-        module: self._package.name,
-        version: self._package.version
     };
     // allow custom to be passed as second parameter
     if (message && typeof message != "string") {
@@ -88,7 +79,5 @@ TelemetryEventsLog.prototype.log = function log(level, message, custom) {
         });
     }
 
-    self.emit(event);
-
-    return event;
+    return self._telemetry.emit(event);
 };

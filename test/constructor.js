@@ -36,13 +36,12 @@ var TelemetryEventsLog = require('../index.js');
 var tests = module.exports = {};
 
 var VALID_CONFIG = {
-    package: {
-        name: "package-name",
-        version: "package-version"
+    telemetry: {
+        emit: function () {}
     }
 };
 
-var REQUIRED_CONFIG_PROPERTIES = ["package"];
+var REQUIRED_CONFIG_PROPERTIES = ["telemetry"];
 
 tests['instantiates with valid config'] = function (test) {
     test.expect(1);
