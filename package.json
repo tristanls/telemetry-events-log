@@ -1,7 +1,7 @@
 {
-  "name": "telemetry-events",
-  "version": "0.4.1",
-  "description": "Helper for creating and emitting telemetry events.",
+  "name": "telemetry-events-log",
+  "version": "0.0.0",
+  "description": "Helper for creating and emitting telemetry log events.",
   "scripts": {
     "inject-examples": "node scripts/injectExamples.js",
     "readme": "node examples/readme.js",
@@ -11,9 +11,12 @@
   "devDependencies": {
     "nodeunit": "0.9.x"
   },
+  "dependencies": {
+    "telemetry-events": "0.5.0"
+  },
   "repository": {
     "type": "git",
-    "url": "git@github.com:tristanls/telemetry-events.git"
+    "url": "git@github.com:tristanls/telemetry-events-log.git"
   },
   "keywords": [
     "telemetry",
