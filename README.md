@@ -4,7 +4,7 @@ _Stability: 1 - [Experimental](https://github.com/tristanls/stability-index#stab
 
 [![NPM version](https://badge.fury.io/js/telemetry-events-log.png)](http://npmjs.org/package/telemetry-events-log)
 
-Helper for creating and emitting telemetry log events.
+Helper for creating and emitting [TelemetryEvents](https://github.com/tristanls/telemetry-events) for logs.
 
 ## Contributors
 
