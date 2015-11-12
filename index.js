@@ -4,7 +4,7 @@ index.js: telemetry-events-log
 
 The MIT License (MIT)
 
-Copyright (c) 2014 Tristan Slominski, Leora Pearson
+Copyright (c) 2014-2015 Tristan Slominski, Leora Pearson
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -54,30 +54,46 @@ function LogTelemetryEvents(config) {
 
 /*
   * `level`: _String_ Log level to be used for `event.level` property.
-  * `message`: _String_ _(Default: undefined)_ An optional message to be used for `event.message` property.
-  * `custom`: _Object_ _(Default: undefined)_ Optional object with custom properties to add to the event.
+  * `message`: _String_ _(Default: undefined)_ An optional message to be used
+      for `event.message` property.
+  * `common`: _Object_ _(Default: undefined)_ Optional common event data to
+      clone and extend with the `event` data.
+  * `custom`: _Object_ _(Default: undefined)_ Optional object with custom
+      properties to add to the event.
   * Return: _Object_ The event.
 */
-LogTelemetryEvents.prototype.log = function log(level, message, custom) {
+LogTelemetryEvents.prototype.log = function log(level, message, common, custom) {
     var self = this;
 
     var event = {
         type: 'log',
         level: level,
     };
-    // allow custom to be passed as second parameter
-    if (message && typeof message != "string") {
-        custom = message;
-        message = null;
+    if (message && typeof message != "string") // log(level, common, custom)
+    {
+        custom = common;
+        common = message;
+        message = undefined;
     }
-    if (message) {
+    if (!custom) // log(level, custom)
+    {
+        custom = common;
+        common = undefined;
+    }
+    if (message)
+    {
         event.message = message;
     }
-    if (custom) {
-        Object.keys(custom).forEach(function(property) {
+    if (custom)
+    {
+        Object.keys(custom).forEach(function(property)
+        {
             event[property] = custom[property];
         });
     }
-
+    if (common)
+    {
+        return self._telemetry.emit(common, event);
+    }
     return self._telemetry.emit(event);
 };

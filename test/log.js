@@ -4,7 +4,7 @@ log.js - TelemetryEventsLog.log() test
 
 The MIT License (MIT)
 
-Copyright (c) 2014 Tristan Slominski, Leora Pearson
+Copyright (c) 2014-2015 Tristan Slominski, Leora Pearson
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -31,6 +31,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 "use strict";
 
+var clone = require("clone");
 var events = require('events');
 var TelemetryEventsLog = require('../index.js');
 
@@ -44,6 +45,18 @@ var VALID_CONFIG = {
 
 function assertEqual(test, thingy, actualValueOfThingy, expectedValueOfThingy) {
     test.equal(actualValueOfThingy, expectedValueOfThingy, "expected value for " + thingy + " was '" + expectedValueOfThingy + "' but received '" + actualValueOfThingy + "'");
+}
+
+function assertDeepEqual(
+    test, thingy, actualValueOfThingy, expectedValueOfThingy)
+{
+    test.deepEqual(actualValueOfThingy, expectedValueOfThingy,
+        "expected value for " +
+        thingy +
+        " was '" +
+        JSON.stringify(expectedValueOfThingy) +
+        "' but received '" +
+        JSON.stringify(actualValueOfThingy));
 }
 
 tests['returns the event'] = function (test) {
@@ -83,5 +96,92 @@ tests["should call telemetry.emit() to emit event"] = function (test) {
         });
     var returnedEvent = telemetry.log('info', "'ello", {foo: 'bar', baz: {hi: 'there'}});
     test.strictEqual(emittedEvent, returnedEvent, "emitted event was not the same as returned event");
+    test.done();
+};
+
+tests["should call telemetry.emit() with common data to emit event"] = function(test)
+{
+    test.expect(3);
+    var _common = {
+        some: "common data",
+        with: {
+            some: "more data"
+        }
+    };
+    var _event = {
+        foo: "bar",
+        baz: {
+            hi: "there"
+        },
+        with: {
+            other: "data"
+        }
+    };
+    var _stub = {};
+    var telemetry = new TelemetryEventsLog(
+    {
+        telemetry: {
+            emit: function(common, event)
+            {
+                assertDeepEqual(test, "common", common, _common);
+                assertDeepEqual(test, "event", event,
+                {
+                    type: "log",
+                    level: "info",
+                    message: "'ello",
+                    foo: _event.foo,
+                    baz: _event.baz,
+                    with: _event.with
+                });
+                return _stub;
+            }
+        }
+    });
+    var returnedEvent = telemetry.log("info", "'ello", _common, clone(_event));
+    test.strictEqual(returnedEvent, _stub,
+                     "emitted event was not the same as returned event");
+    test.done();
+};
+
+tests["allows common to be passed as the second parameter instead of message"] = function(test)
+{
+    test.expect(3);
+    var _common = {
+        some: "common data",
+        with: {
+            some: "more data"
+        }
+    };
+    var _event = {
+        foo: "bar",
+        baz: {
+            hi: "there"
+        },
+        with: {
+            other: "data"
+        }
+    };
+    var _stub = {};
+    var telemetry = new TelemetryEventsLog(
+    {
+        telemetry: {
+            emit: function(common, event)
+            {
+                assertDeepEqual(test, "common", common, _common);
+                assertDeepEqual(test, "event", event,
+                {
+                    type: "log",
+                    level: "info",
+                    foo: _event.foo,
+                    baz: _event.baz,
+                    with: _event.with
+                });
+                return _stub;
+            }
+        }
+    });
+    var returnedEvent = telemetry.log("info", _common, clone(_event));
+    test.strictEqual(returnedEvent, _stub,
+                     "emitted event was not the same as returned event");
     test.done();
 };

@@ -51,6 +51,22 @@ logTelemetry.log('info', 'hello info level');
 logTelemetry.log('warn', 'hello warn level');
 logTelemetry.log('error', 'hello error with custom data', {custom: 'data'});
 
+var _commonEventData = {
+    method: "readme"
+};
+logTelemetry.log("info",
+{
+    custom: "data with no message and no common event data attached"
+});
+logTelemetry.log("info", _commonEventData,
+{
+    custom: "data with common event data attached"
+});
+logTelemetry.log("info", "my message", _commonEventData,
+{
+    custom: "data with message and common event data attached"
+});
+
 ```
 
 ## Tests
@@ -66,7 +82,7 @@ logTelemetry.log('error', 'hello error with custom data', {custom: 'data'});
 **Public API**
 
   * [new LogTelemetryEvents(config)](#new-logtelemetryeventsconfig)
-  * [telemetry.log(level, \[message\], \[custom\])](#telemetryloglevel-message-custom)
+  * [telemetry.log(level, \[message\], \[common\], \[custom\])](#telemetryloglevel-message-common-custom)
 
 ### new LogTelemetryEvents(config)
 
@@ -76,10 +92,11 @@ logTelemetry.log('error', 'hello error with custom data', {custom: 'data'});
 
 Creates a new LogTelemetryEvents instance.
 
-### telemetry.log(level, [message], [custom])
+### telemetry.log(level, [message], [common], [custom])
 
   * `level`: _String_ Log level to be used for `event.level` property.
   * `message`: _String_ _(Default: undefined)_ An optional message to be used for `event.message` property.
+  * `common`: _Object_ _(Default: undefined)_ Optional common event data to clone and extend with the `event` data.
   * `custom`: _Object_ _(Default: undefined)_ Optional object with custom properties to add to the event.
   * Return: _Object_ The event.
 
