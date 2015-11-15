@@ -4,7 +4,7 @@ readme.js: example from the README
 
 The MIT License (MIT)
 
-Copyright (c) 2014 Tristan Slominski, Leora Pearson
+Copyright (c) 2014-2015 Tristan Slominski, Leora Pearson
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -49,3 +49,19 @@ emitter.on('telemetry', function (event) {
 logTelemetry.log('info', 'hello info level');
 logTelemetry.log('warn', 'hello warn level');
 logTelemetry.log('error', 'hello error with custom data', {custom: 'data'});
+
+var _commonEventData = {
+    method: "readme"
+};
+logTelemetry.log("info",
+{
+    custom: "data with no message and no common event data attached"
+});
+logTelemetry.log("info", _commonEventData,
+{
+    custom: "data with common event data attached"
+});
+logTelemetry.log("info", "my message", _commonEventData,
+{
+    custom: "data with message and common event data attached"
+});
