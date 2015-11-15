@@ -1,6 +1,6 @@
 # telemetry-events-log
 
-_Stability: 1 - [Experimental](https://github.com/tristanls/stability-index#stability-1---experimental)_
+_Stability: 2 - [Stable](https://github.com/tristanls/stability-index#stability-2---stable)_
 
 [![NPM version](https://badge.fury.io/js/telemetry-events-log.png)](http://npmjs.org/package/telemetry-events-log)
 
@@ -17,6 +17,7 @@ Helper for creating and emitting [TelemetryEvents](https://github.com/tristanls/
   * [Tests](#tests)
   * [Documentation](#documentation)
     * [LogTelemetryEvents](#logtelemetryevents)
+  * [Releases](#releases)
 
 ## Installation
 
