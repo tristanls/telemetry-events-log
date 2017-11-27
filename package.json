@@ -9,8 +9,8 @@
   },
   "main": "index.js",
   "devDependencies": {
-    "clone": "2.0.0",
-    "nodeunit": "0.10.2"
+    "clone": "2.1.1",
+    "nodeunit": "0.11.2"
   },
   "dependencies": {
     "telemetry-events": "1.1.0"
