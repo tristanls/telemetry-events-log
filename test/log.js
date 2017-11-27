@@ -4,7 +4,7 @@ log.js - TelemetryEventsLog.log() test
 
 The MIT License (MIT)
 
-Copyright (c) 2014-2015 Tristan Slominski, Leora Pearson
+Copyright (c) 2014-2017 Tristan Slominski, Leora Pearson
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -33,14 +33,21 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 var clone = require("clone");
 var events = require('events');
+var TelemetryEvents = require("telemetry-events");
 var TelemetryEventsLog = require('../index.js');
 
 var tests = module.exports = {};
 
 var VALID_CONFIG = {
-    telemetry: {
-        emit: function (event) {return event;}
-    }
+    telemetry: new TelemetryEvents(
+        {
+            package:
+            {
+                name: "package-name",
+                version: "package-version"
+            }
+        }
+    )
 };
 
 function assertEqual(test, thingy, actualValueOfThingy, expectedValueOfThingy) {
@@ -60,14 +67,39 @@ function assertDeepEqual(
 }
 
 tests['returns the event'] = function (test) {
-    test.expect(5);
+    test.expect(26);
     var telemetry = new TelemetryEventsLog(VALID_CONFIG);
-    var event = telemetry.log('info', "'ello", {foo: 'bar', baz: {hi: 'there'}});
+    var common = {foo: 'bar', baz: {hi: 'there'}, provenance: [{}]}
+    var event = telemetry.log('info', "'ello", common, {custom: 'thing'});
     assertEqual(test, 'event.type', event.type, 'log');
     assertEqual(test, 'event.level', event.level, 'info');
     assertEqual(test, 'event.message', event.message, "'ello");
     assertEqual(test, 'event.foo', event.foo, 'bar');
     test.deepEqual(event.baz, {hi: 'there'}, "expected value for event.baz was '" + JSON.stringify({hi: 'there'}) + "' but received '" + JSON.stringify(event.baz));
+    assertEqual(test, 'event.custom', event.custom, 'thing');
+    assertEqual(test, 'common.provenance.length', common.provenance.length, 1);
+    event = telemetry.log('info', "'ello", common);
+    assertEqual(test, 'event.type', event.type, 'log');
+    assertEqual(test, 'event.level', event.level, 'info');
+    assertEqual(test, 'event.message', event.message, "'ello");
+    assertEqual(test, 'event.foo', event.foo, 'bar');
+    test.deepEqual(event.baz, {hi: 'there'}, "expected value for event.baz was '" + JSON.stringify({hi: 'there'}) + "' but received '" + JSON.stringify(event.baz));
+    assertEqual(test, 'event.custom', event.custom, undefined);
+    assertEqual(test, 'common.provenance.length', common.provenance.length, 1);
+    event = telemetry.log('info', "'ello");
+    assertEqual(test, 'event.type', event.type, 'log');
+    assertEqual(test, 'event.level', event.level, 'info');
+    assertEqual(test, 'event.message', event.message, "'ello");
+    assertEqual(test, 'event.foo', event.foo, undefined);
+    assertEqual(test, 'event.baz', event.baz, undefined);
+    assertEqual(test, 'event.custom', event.custom, undefined);
+    event = telemetry.log('info');
+    assertEqual(test, 'event.type', event.type, 'log');
+    assertEqual(test, 'event.level', event.level, 'info');
+    assertEqual(test, 'event.message', event.message, undefined);
+    assertEqual(test, 'event.foo', event.foo, undefined);
+    assertEqual(test, 'event.baz', event.baz, undefined);
+    assertEqual(test, 'event.custom', event.custom, undefined);
     test.done();
 };
 

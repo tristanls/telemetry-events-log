@@ -4,7 +4,7 @@ index.js: telemetry-events-log
 
 The MIT License (MIT)
 
-Copyright (c) 2014-2015 Tristan Slominski, Leora Pearson
+Copyright (c) 2014-2017 Tristan Slominski, Leora Pearson
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -74,11 +74,6 @@ LogTelemetryEvents.prototype.log = function log(level, message, common, custom) 
         custom = common;
         common = message;
         message = undefined;
-    }
-    if (!custom) // log(level, custom)
-    {
-        custom = common;
-        common = undefined;
     }
     if (message)
     {

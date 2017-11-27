@@ -50,22 +50,22 @@ emitter.on('telemetry', function (event) {
 
 logTelemetry.log('info', 'hello info level');
 logTelemetry.log('warn', 'hello warn level');
-logTelemetry.log('error', 'hello error with custom data', {custom: 'data'});
+logTelemetry.log('error', 'hello error with common data', {common: 'data'});
 
 var _commonEventData = {
     method: "readme"
 };
 logTelemetry.log("info",
 {
-    custom: "data with no message and no common event data attached"
+    common: "data with no message and no custom event data attached"
 });
 logTelemetry.log("info", _commonEventData,
 {
-    custom: "data with common event data attached"
+    custom: "data with common and custom event data attached"
 });
 logTelemetry.log("info", "my message", _commonEventData,
 {
-    custom: "data with message and common event data attached"
+    custom: "data with message and common and custom event data attached"
 });
 
 ```
