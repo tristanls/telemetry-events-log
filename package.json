@@ -1,6 +1,6 @@
 {
   "name": "telemetry-events-log",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Helper for creating and emitting telemetry log events.",
   "scripts": {
     "inject-examples": "node scripts/injectExamples.js",
