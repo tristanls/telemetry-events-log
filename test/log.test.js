@@ -49,22 +49,6 @@ const VALID_CONFIG =
     )
 };
 
-function assertEqual(test, thingy, actualValueOfThingy, expectedValueOfThingy) {
-    test.equal(actualValueOfThingy, expectedValueOfThingy, "expected value for " + thingy + " was '" + expectedValueOfThingy + "' but received '" + actualValueOfThingy + "'");
-}
-
-function assertDeepEqual(
-    test, thingy, actualValueOfThingy, expectedValueOfThingy)
-{
-    test.deepEqual(actualValueOfThingy, expectedValueOfThingy,
-        "expected value for " +
-        thingy +
-        " was '" +
-        JSON.stringify(expectedValueOfThingy) +
-        "' but received '" +
-        JSON.stringify(actualValueOfThingy));
-}
-
 expect.extend(
     {
         toBeISO8601Date(received)
